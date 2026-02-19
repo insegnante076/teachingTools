@@ -26,7 +26,9 @@ class TimelineApp {
     async loadCSV() {
         try {
             const csvText = await URLUtils.fetchCSV(this.csvUrl);
-            this.parseCSV(csvText);
+            // Use shared CSV parser to get rows as objects (header -> value)
+            const rows = CSVUtils.parseCSVText(csvText);
+            this.parseRows(rows);
             this.createTimeline();
         } catch (error) {
             this.showError(`Failed to load CSV: ${error.message}`);
@@ -34,33 +36,74 @@ class TimelineApp {
     }
 
     /**
-     * Parse CSV content into timeline events
-     * Expected format:
-     * year,month,day,text,headline,media_url,media_caption
+     * Convert parsed CSV rows (objects) into timeline events.
+     * Supports KnightLab-style headers like: Year,Month,Day,Time,End Year,...,Headline,Text,Media,Media Credit,Media Caption,Media Thumbnail,Type,Group,Background
      */
-    parseCSV(csvText) {
-        const lines = csvText.trim().split('\n');
-
-        if (lines.length === 0) {
-            throw new Error('CSV file is empty');
+    parseRows(rows) {
+        if (!Array.isArray(rows) || rows.length === 0) {
+            throw new Error('CSV file is empty or could not be parsed');
         }
 
-        // Skip header row
-        const headerLine = lines[0].toLowerCase();
-        let startIndex = 0;
-        if (headerLine.includes('year') || headerLine.includes('date')) {
-            startIndex = 1;
-        }
-
-        for (let i = startIndex; i < lines.length; i++) {
-            const fields = this.parseCSVLine(lines[i]);
-            if (fields.length >= 3) {
-                const event = this.createEventFromFields(fields);
-                if (event) {
-                    this.events.push(event);
+        const getField = (obj, names) => {
+            if (!obj) return '';
+            // case-insensitive lookup
+            const keys = Object.keys(obj);
+            for (const name of names) {
+                const lower = name.toLowerCase();
+                for (const k of keys) {
+                    if ((k || '').toLowerCase() === lower) return (obj[k] || '').trim();
                 }
             }
-        }
+            return '';
+        };
+
+        rows.forEach(row => {
+            const year = this.parseNumber(getField(row, ['Year', 'year', 'Start Year', 'start year']));
+            const month = this.parseNumber(getField(row, ['Month', 'month', 'Start Month', 'start month'])) || 1;
+            const day = this.parseNumber(getField(row, ['Day', 'day', 'Start Day', 'start day'])) || 1;
+            const time = getField(row, ['Time', 'time']);
+            const headline = getField(row, ['Headline', 'headline', 'Title', 'title']);
+            const text = getField(row, ['Text', 'text', 'Description', 'description']);
+            const mediaUrl = getField(row, ['Media', 'media', 'Media URL', 'media_url']);
+            const mediaCredit = getField(row, ['Media Credit', 'media credit', 'credit']);
+            const mediaCaption = getField(row, ['Media Caption', 'media caption', 'caption']);
+            const mediaThumb = getField(row, ['Media Thumbnail', 'media thumbnail', 'thumbnail']);
+            const group = getField(row, ['Group', 'group', 'Type', 'type']);
+            const background = getField(row, ['Background', 'background']);
+
+            if (!year || !headline) return; // skip invalid
+
+            const event = {
+                start_date: {
+                    year: year,
+                    month: Math.max(1, Math.min(12, month)),
+                    day: Math.max(1, Math.min(31, day))
+                },
+                text: {
+                    headline: headline,
+                    // keep HTML in text as provided in CSV (allow <p>, <strong>, etc.)
+                    text: text || ''
+                }
+            };
+
+            // Attach media when available
+            if (mediaUrl) {
+                event.media = {
+                    url: mediaUrl,
+                    caption: mediaCaption || '',
+                    credit: mediaCredit || ''
+                };
+                if (mediaThumb) event.media.thumbnail = mediaThumb;
+            }
+
+            if (group) event.group = group;
+            if (background) {
+                // Timeline.js expects a background object with color (e.g. { color: '#01724C' })
+                event.background = { color: background };
+            }
+
+            this.events.push(event);
+        });
 
         if (this.events.length === 0) {
             throw new Error('No valid events found in CSV');
@@ -110,27 +153,7 @@ class TimelineApp {
     /**
      * Parse a CSV line handling quoted fields
      */
-    parseCSVLine(line) {
-        const result = [];
-        let current = '';
-        let insideQuotes = false;
-
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-
-            if (char === '"') {
-                insideQuotes = !insideQuotes;
-            } else if (char === ',' && !insideQuotes) {
-                result.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        result.push(current);
-
-        return result;
-    }
+    // legacy line parser removed — using CSVUtils.parseCSVText for robust parsing
 
     /**
      * Parse string to number
@@ -165,25 +188,42 @@ class TimelineApp {
      * Create timeline with Knight Lab Timeline.js
      */
     createTimeline() {
+        // Normalize events: Timeline.js expects string values for date parts
+        const normalizedEvents = this.events.map(ev => {
+            const sd = ev.start_date || {};
+            const nd = {
+                year: sd.year !== undefined && sd.year !== null ? String(sd.year) : '0',
+                month: sd.month !== undefined && sd.month !== null ? String(sd.month) : '1',
+                day: sd.day !== undefined && sd.day !== null ? String(sd.day) : '1'
+            };
+            const ne = Object.assign({}, ev, { start_date: nd });
+            return ne;
+        });
+
         const timelineData = {
-            scale: 'gregorian',
-            events: this.events
+            events: normalizedEvents
         };
 
         // Hide loading container
         document.getElementById('loadingContainer').style.display = 'none';
 
-        // Initialize timeline
-        this.timelineInstance = new TL.Timeline(
-            'timeline',
-            timelineData,
-            {
-                scale_factor: 2,
-                language: 'en',
-                hash_bookmark: true,
-                debug: false
-            }
-        );
+        // Initialize timeline with try/catch to report initialization errors
+        try {
+            this.timelineInstance = new TL.Timeline(
+                'timeline',
+                timelineData,
+                {
+                    scale_factor: 2,
+                    language: 'en',
+                    hash_bookmark: true,
+                    debug: false
+                }
+            );
+        } catch (err) {
+            console.error('Timeline initialization error:', err);
+            this.showError(`Timeline init failed: ${err && err.message ? err.message : String(err)}`);
+            return;
+        }
 
         // Responsive resize
         window.addEventListener('resize', () => {
