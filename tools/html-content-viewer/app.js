@@ -169,6 +169,8 @@ class ContentViewerApp {
         this.renderTableOfContents();
 
         // Then render content items
+        let previousHeadingLevel = null;
+        
         this.contents.forEach((item, index) => {
             const contentDiv = document.createElement('div');
             contentDiv.className = 'content-item';
@@ -186,11 +188,17 @@ class ContentViewerApp {
             contentDiv.appendChild(body);
             container.appendChild(contentDiv);
 
-            // Add separator between items, but not after the last one
-            if (index < this.contents.length - 1) {
-                const separator = document.createElement('hr');
-                separator.className = 'content-separator';
-                container.appendChild(separator);
+            // Add separator only when moving to a higher-level heading (lower number = higher level)
+            if (index > 0) {
+                const currentLevel = this.getHeadingLevel(item.heading);
+                if (previousHeadingLevel !== null && currentLevel < previousHeadingLevel) {
+                    const separator = document.createElement('hr');
+                    separator.className = 'content-separator';
+                    container.insertBefore(separator, contentDiv);
+                }
+                previousHeadingLevel = currentLevel;
+            } else {
+                previousHeadingLevel = this.getHeadingLevel(item.heading);
             }
         });
     }
