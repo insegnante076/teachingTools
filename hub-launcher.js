@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleGroup = document.getElementById('titleGroup');
     const csvUrl = document.getElementById('csvUrl');
     const mapTitle = document.getElementById('mapTitle');
+    const presentationFilterGroup = document.getElementById('presentationFilterGroup');
+    const presentationFilter = document.getElementById('presentationFilter');
+    const verticalLevelGroup = document.getElementById('verticalLevelGroup');
+    const verticalLevel = document.getElementById('verticalLevel');
 
     // Show/hide map title field based on tool selection
     toolSelect.addEventListener('change', function() {
@@ -20,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
             mapTitle.required = false;
             mapTitle.value = '';
         }
+
+        // Show reveal-specific options
+        if (this.value === 'reveal-slideshow') {
+            presentationFilterGroup.style.display = 'flex';
+            verticalLevelGroup.style.display = 'flex';
+        } else {
+            presentationFilterGroup.style.display = 'none';
+            if (presentationFilter) presentationFilter.value = '';
+            verticalLevelGroup.style.display = 'none';
+            if (verticalLevel) verticalLevel.value = '';
+        }
     });
 
     // Handle form submission
@@ -28,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const tool = toolSelect.value;
         const csv = csvUrl.value.trim();
+        const presFilter = presentationFilter ? presentationFilter.value.trim() : '';
+        const vLevel = verticalLevel ? verticalLevel.value.trim() : '';
 
         // Validate inputs
         if (!tool) {
@@ -56,8 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             toolUrl += `?csv=${encodeURIComponent(csv)}&title=${encodeURIComponent(title)}`;
+            if (presFilter) toolUrl += `&presentation_filter=${encodeURIComponent(presFilter)}`;
+            if (vLevel) toolUrl += `&vertical_level=${encodeURIComponent(vLevel)}`;
         } else {
             toolUrl += `?csv=${encodeURIComponent(csv)}`;
+            if (presFilter) toolUrl += `&presentation_filter=${encodeURIComponent(presFilter)}`;
+            if (vLevel) toolUrl += `&vertical_level=${encodeURIComponent(vLevel)}`;
         }
 
         // Clear any error messages

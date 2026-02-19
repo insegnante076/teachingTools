@@ -1,0 +1,6 @@
+slide_id,heading_html,content_html,background,transition,classes,notes,presentation_filter
+1,"<h2>Intro</h2>","<p>Welcome to the demo.</p>",#111827,fade,center,Intro.,presentation_1
+2,"<h3>Point A</h3>","<p>Details about A.</p>",#0f172a,slide,,Note A.,presentation_1
+3,"<h4>Subpoint A1</h4>","<p>More detail A1.</p>",#1f2937,convex,,Note A1.,presentation_1
+4,"<h3>Point B</h3>","<p>Details about B.</p>",#000000,zoom,,Note B.,presentation_1
+5,"<h2>Next Section</h2>","<p>Start of next section.</p>",#1e3a8a,fade,center,Section notes.,presentation_1
