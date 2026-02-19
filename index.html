@@ -24,6 +24,7 @@
                         <option value="reveal-slideshow">📊 Reveal Slideshow</option>
                         <option value="knightlab-timeline">📅 Knight Lab Timeline</option>
                         <option value="markmap-visualizer">🧠 Markmap Visualizer</option>
+                        <option value="html-content-viewer">📄 HTML Content Viewer</option>
                     </select>
                 </div>
 
@@ -69,7 +70,13 @@
                         <option value="h5">h5</option>
                         <option value="h6">h6</option>
                     </select>
-                    <small>Slides with heading level &ge; selected will be shown vertically under the previous higher-level heading.</small>
+                    <small>Slides with heading level >= selected will be shown vertically under the previous higher-level heading.</small>
+                </div>
+
+                <div class="form-group" id="lessonGroupGroup" style="display: none;">
+                    <label for="lessonGroup">Lesson Group (for HTML Content Viewer):</label>
+                    <input type="text" id="lessonGroup" placeholder="e.g. lesson1, lesson2">
+                    <small>Specify which lesson group to display from the CSV</small>
                 </div>
 
                 <button type="submit" class="launch-btn">🚀 Launch Tool</button>
@@ -96,6 +103,13 @@
                 <p>Create interactive mind maps from markdown. Load mind maps from CSV files to visualize concepts, brainstorming ideas, and knowledge organization.</p>
                 <a href="tools/markmap-visualizer/" class="tool-link">Open Tool</a>
                 <small>📝 Example: ?csv=https://example.com/maps.csv&title=MapTitle</small>
+            </div>
+
+            <div class="tool-card">
+                <h2>📄 HTML Content Viewer</h2>
+                <p>Display structured HTML content filtered by lesson group. Load customized content from CSV files to present educational materials with rich formatting.</p>
+                <a href="tools/html-content-viewer/" class="tool-link">Open Tool</a>
+                <small>📝 Example: ?csv=https://example.com/content.csv&lesson_group=lesson1</small>
             </div>
 
             <!-- More tools will be added here -->

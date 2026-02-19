@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const presentationFilter = document.getElementById('presentationFilter');
     const verticalLevelGroup = document.getElementById('verticalLevelGroup');
     const verticalLevel = document.getElementById('verticalLevel');
+    const lessonGroupGroup = document.getElementById('lessonGroupGroup');
+    const lessonGroup = document.getElementById('lessonGroup');
 
-    // Show/hide map title field based on tool selection
+    // Show/hide fields based on tool selection
     toolSelect.addEventListener('change', function() {
         if (this.value === 'markmap-visualizer') {
             titleGroup.style.display = 'flex';
@@ -35,6 +37,16 @@ document.addEventListener('DOMContentLoaded', function() {
             verticalLevelGroup.style.display = 'none';
             if (verticalLevel) verticalLevel.value = '';
         }
+
+        // Show html-content-viewer-specific options
+        if (this.value === 'html-content-viewer') {
+            lessonGroupGroup.style.display = 'flex';
+            lessonGroup.required = true;
+        } else {
+            lessonGroupGroup.style.display = 'none';
+            lessonGroup.required = false;
+            if (lessonGroup) lessonGroup.value = '';
+        }
     });
 
     // Handle form submission
@@ -45,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const csv = csvUrl.value.trim();
         const presFilter = presentationFilter ? presentationFilter.value.trim() : '';
         const vLevel = verticalLevel ? verticalLevel.value.trim() : '';
+        const lessGrp = lessonGroup ? lessonGroup.value.trim() : '';
 
         // Validate inputs
         if (!tool) {
@@ -75,6 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
             toolUrl += `?csv=${encodeURIComponent(csv)}&title=${encodeURIComponent(title)}`;
             if (presFilter) toolUrl += `&presentation_filter=${encodeURIComponent(presFilter)}`;
             if (vLevel) toolUrl += `&vertical_level=${encodeURIComponent(vLevel)}`;
+        } else if (tool === 'html-content-viewer') {
+            if (!lessGrp) {
+                showFormError('Please enter a lesson group for HTML Content Viewer');
+                return;
+            }
+            toolUrl += `?csv=${encodeURIComponent(csv)}&lesson_group=${encodeURIComponent(lessGrp)}`;
         } else {
             toolUrl += `?csv=${encodeURIComponent(csv)}`;
             if (presFilter) toolUrl += `&presentation_filter=${encodeURIComponent(presFilter)}`;
