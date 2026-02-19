@@ -59,68 +59,33 @@ class MarkmapApp {
      * id,markdown OR title,markdown
      */
     parseCSV(csvText) {
-        const lines = csvText.trim().split('\n');
+        // Use shared CSVUtils which leverages PapaParse if available
+        const rows = CSVUtils.parseCSVText(csvText || '');
 
-        if (lines.length === 0) {
-            throw new Error('CSV file is empty');
+        if (!rows || rows.length === 0) {
+            throw new Error('No valid maps found in CSV');
         }
 
-        // Check for header row
-        const headerLine = lines[0].toLowerCase();
-        let startIndex = 0;
-        let isIdColumn = false;
-        
-        if (headerLine.includes('id') && headerLine.includes('markdown')) {
-            startIndex = 1;
-            isIdColumn = true;
-        } else if (headerLine.includes('title') && headerLine.includes('markdown')) {
-            startIndex = 1;
-            isIdColumn = false;
-        }
+        // Determine key names (case-insensitive)
+        const keyNames = Object.keys(rows[0]).map(k => k.toLowerCase());
 
-        for (let i = startIndex; i < lines.length; i++) {
-            const fields = this.parseCSVLine(lines[i]);
-            if (fields.length >= 2) {
-                const identifier = fields[0].trim();
-                const markdown = fields[1].trim();
-                
-                // Store with 'id' property regardless of column name
-                this.maps.push({ 
-                    id: identifier,
-                    title: identifier,  // Also store as title for compatibility
-                    markdown 
-                });
+        rows.forEach(row => {
+            // find identifier and markdown keys
+            const keys = Object.keys(row);
+            const idKey = keys.find(k => /^(id|title)$/i.test(k));
+            const mdKey = keys.find(k => /^(markdown|md|content)$/i.test(k));
+
+            const identifier = idKey ? (row[idKey] || '').trim() : '';
+            const markdown = mdKey ? (row[mdKey] || '').trim() : '';
+
+            if (identifier && markdown) {
+                this.maps.push({ id: identifier, title: identifier, markdown });
             }
-        }
+        });
 
         if (this.maps.length === 0) {
             throw new Error('No valid maps found in CSV');
         }
-    }
-
-    /**
-     * Parse a CSV line handling quoted fields
-     */
-    parseCSVLine(line) {
-        const result = [];
-        let current = '';
-        let insideQuotes = false;
-
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-
-            if (char === '"') {
-                insideQuotes = !insideQuotes;
-            } else if (char === ',' && !insideQuotes) {
-                result.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        result.push(current);
-
-        return result;
     }
 
     /**
@@ -179,13 +144,17 @@ class MarkmapApp {
             }
 
             // Set SVG attributes for proper rendering
-            svg.setAttribute('width', '100%');
-            svg.setAttribute('height', '100%');
+            // Set SVG size in pixels based on container to allow Markmap.fit() to compute viewBox
+            const containerRect = markmapContainer.getBoundingClientRect();
+            const w = Math.max(300, Math.round(containerRect.width || window.innerWidth));
+            const h = Math.max(200, Math.round(containerRect.height || window.innerHeight));
+            svg.setAttribute('width', String(w));
+            svg.setAttribute('height', String(h));
             svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             svg.style.width = '100%';
             svg.style.height = '100%';
             svg.style.display = 'block';
-            svg.style.background = 'white';
+            svg.style.background = 'transparent';
 
             // Get Markmap utilities
             const { Transformer, Markmap } = window.markmap;
@@ -217,8 +186,34 @@ class MarkmapApp {
             }, root);
             
             console.log('Markmap instance created:', mm);
+            try {
+                const proto = Object.getPrototypeOf(mm) || {};
+                console.log('Markmap prototype methods:', Object.getOwnPropertyNames(proto));
+                console.log('Markmap own keys:', Object.keys(mm));
+
+                if (typeof mm.setData === 'function') {
+                    console.log('Calling mm.setData(root)');
+                    mm.setData(root);
+                } else if (typeof mm.update === 'function') {
+                    console.log('Calling mm.update(root)');
+                    mm.update(root);
+                } else if (typeof mm.setRoot === 'function') {
+                    console.log('Calling mm.setRoot(root)');
+                    mm.setRoot(root);
+                } else {
+                    console.log('No setData/update/setRoot methods found on Markmap instance');
+                }
+            } catch (e) {
+                console.error('Error while trying alternative Markmap methods:', e);
+            }
             console.log('SVG innerHTML length:', svg.innerHTML.length);
             console.log('SVG childNodes:', svg.childNodes.length);
+            // Dump first 2000 chars of innerHTML for debugging
+            try {
+                console.log('SVG innerHTML (preview):', svg.innerHTML && svg.innerHTML.slice(0, 2000));
+            } catch (e) {
+                console.error('Error reading svg.innerHTML preview:', e);
+            }
             
             // Check if SVG has content
             if (svg.innerHTML.length > 0) {
@@ -235,6 +230,12 @@ class MarkmapApp {
                     console.log('Markmap fit() called successfully');
                     const vb = svg.getAttribute('viewBox');
                     console.log('SVG viewBox:', vb);
+                    // show final svg outerHTML size
+                    try {
+                        console.log('Final SVG outerHTML length:', svg.outerHTML ? svg.outerHTML.length : 0);
+                    } catch (e) {
+                        console.error('Error reading svg.outerHTML:', e);
+                    }
                     if (debugDiv) debugDiv.textContent += '\nViewBox: ' + (vb || 'none');
                 } catch (e) {
                     console.error('Error calling fit():', e);
