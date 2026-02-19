@@ -7,14 +7,17 @@ A collection of web-based tools designed to help educators create personalized, 
 ```
 teachingTools/
 ├── index.html              # Hub page with links to all tools
+├── hub-launcher.js        # Quick launch form handler
 ├── README.md              # This file
 ├── tools/                 # Individual educational tools
-│   └── reveal-slideshow/  # Presentation tool powered by reveal.js
-│       ├── index.html
-│       ├── app.js
-│       └── README.md
+│   ├── reveal-slideshow/  # Presentation tool powered by reveal.js
+│   ├── knightlab-timeline/# Timeline visualization
+│   ├── markmap-visualizer/# Mind map visualizer
+│   └── html-content-viewer/ # HTML content renderer
 └── shared/                # Shared utilities
-    └── url-utils.js      # URL parameter handling library
+    ├── url-utils.js      # URL parameter handling library
+    ├── csv-utils.js      # CSV parsing utilities
+    └── styles.css        # Common styles
 ```
 
 ## � Available Tools
@@ -45,6 +48,21 @@ Create interactive mind maps from markdown. Load mind maps from CSV files.
 ```
 tools/markmap-visualizer/?csv=https://your-domain.com/maps.csv&title=MapTitle
 ```
+
+### 4. HTML Content Viewer
+
+Display structured HTML content filtered by lesson group. Load educational materials with rich formatting and personalized content filtering.
+
+**Usage:**
+```
+tools/html-content-viewer/?csv=https://your-domain.com/content.csv&lesson_group=lesson1
+```
+
+**Features:**
+- Filter content by lesson group
+- Support for full HTML formatting
+- Responsive design with dark mode support
+- Clean, readable layout
 
 ## 📌 Supported CSV Sources
 
@@ -86,8 +104,12 @@ Get the "Embed" code and extract the download URL
 
 1. Clone or download this repository
 2. Open `index.html` in a web browser to see the hub
-3. Click on a tool to start using it
-4. Pass URL parameters to customize content (see tool-specific documentation)
+3. Use the **Quick Launch** form to easily select a tool and provide your CSV URL
+   - Select the tool from the dropdown
+   - Paste your CSV/Google Sheet URL
+   - Enter any tool-specific parameters (presentation filter, lesson group, etc.)
+   - Click "Launch Tool"
+4. Alternatively, pass URL parameters directly to customize content (see tool-specific documentation)
 
 ## 📝 Creating Content
 
@@ -135,8 +157,8 @@ const url = URLUtils.generateToolUrl('tools/my-tool/', {
 
 Ideas for additional tools:
 - Quiz/Assessment builder
-- Interactive timeline tool
-- Concept mapping tool
+- Interactive annotation tool
+- Advanced concept mapping
 - Assignment submission system
 - Learning analytics dashboard
 
