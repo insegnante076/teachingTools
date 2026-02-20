@@ -41,7 +41,7 @@ class ContentViewerApp {
                     lesson_group: (r.lesson_group || '').trim()
                 }))
                 .filter(item => {
-                    return item.lesson_group === this.lessonGroup && item.heading && item.content;
+                    return item.lesson_group === this.lessonGroup && item.heading;
                 });
 
             if (this.contents.length === 0) {
@@ -180,12 +180,15 @@ class ContentViewerApp {
             heading.className = 'content-heading';
             heading.innerHTML = item.heading;
             
-            const body = document.createElement('div');
-            body.className = 'content-body';
-            body.innerHTML = item.content;
-            
             contentDiv.appendChild(heading);
-            contentDiv.appendChild(body);
+            
+            // Only add content body if there's content
+            if (item.content) {
+                const body = document.createElement('div');
+                body.className = 'content-body';
+                body.innerHTML = item.content;
+                contentDiv.appendChild(body);
+            }
             container.appendChild(contentDiv);
 
             // Add separator only when moving to a higher-level heading (lower number = higher level)
