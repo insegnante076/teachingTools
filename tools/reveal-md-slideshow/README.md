@@ -26,15 +26,28 @@ Other columns like `cap`, `title`, `map_md`, `map_html` are ignored by this tool
 ## Markdown Format
 
 The concatenated markdown should use standard reveal.js markdown syntax:
-- Use `---` to separate slides
+- Use `---` to separate horizontal slides
+- Use `--` to separate vertical slides (child slides)
 - Use `##` for slide titles
 - Standard markdown for content
 
-Example markdown content:
+Example markdown content with vertical slides:
 ```
 # Slide 1 Title
 
 Content for slide 1
+
+--
+
+# Vertical Slide 1.1
+
+Content for vertical slide
+
+--
+
+# Vertical Slide 1.2
+
+More content
 
 ---
 
@@ -49,3 +62,5 @@ Content for slide 1
 
 More content...
 ```
+
+**Note:** Separators (`---` and `--`) should be on their own lines, surrounded by blank lines for proper parsing.

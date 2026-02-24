@@ -40,7 +40,7 @@ class MarkdownSlideShowApp {
             // Concatenate slides_p1, slides_p2, slides_p3
             const markdown = [row.slides_p1, row.slides_p2, row.slides_p3]
                 .filter(content => content && content.trim())
-                .join('\n\n');
+                .join('\n');
 
             if (!markdown.trim()) {
                 throw new Error('No slide content found in slides_p1, slides_p2, or slides_p3');
@@ -66,6 +66,10 @@ class MarkdownSlideShowApp {
         // Initialize Reveal.js
         Reveal.initialize({
             hash: true,
+            markdown: {
+                separator: '\\n---\\n',
+                verticalSeparator: '\\n--\\n'
+            },
             plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
         });
     }
