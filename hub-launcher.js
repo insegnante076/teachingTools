@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const verticalLevel = document.getElementById('verticalLevel');
     const lessonGroupGroup = document.getElementById('lessonGroupGroup');
     const lessonGroup = document.getElementById('lessonGroup');
+    const idGroup = document.getElementById('idGroup');
+    const slideId = document.getElementById('slideId');
 
     // Show/hide fields based on tool selection
     toolSelect.addEventListener('change', function() {
@@ -47,6 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
             lessonGroup.required = false;
             if (lessonGroup) lessonGroup.value = '';
         }
+
+        // Show reveal-md-slideshow-specific options
+        if (this.value === 'reveal-md-slideshow') {
+            idGroup.style.display = 'flex';
+            slideId.required = true;
+        } else {
+            idGroup.style.display = 'none';
+            slideId.required = false;
+            if (slideId) slideId.value = '';
+        }
     });
 
     // Handle form submission
@@ -58,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const presFilter = presentationFilter ? presentationFilter.value.trim() : '';
         const vLevel = verticalLevel ? verticalLevel.value.trim() : '';
         const lessGrp = lessonGroup ? lessonGroup.value.trim() : '';
+        const sId = slideId ? slideId.value.trim() : '';
 
         // Validate inputs
         if (!tool) {
@@ -94,6 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             toolUrl += `?csv=${encodeURIComponent(csv)}&lesson_group=${encodeURIComponent(lessGrp)}`;
+        } else if (tool === 'reveal-md-slideshow') {
+            if (!sId) {
+                showFormError('Please enter a slide ID for Reveal Markdown Slideshow');
+                return;
+            }
+            toolUrl += `?csv=${encodeURIComponent(csv)}&id=${encodeURIComponent(sId)}`;
         } else {
             toolUrl += `?csv=${encodeURIComponent(csv)}`;
             if (presFilter) toolUrl += `&presentation_filter=${encodeURIComponent(presFilter)}`;

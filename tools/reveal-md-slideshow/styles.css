@@ -1,0 +1,73 @@
+/**
+ * Reveal Slideshow Tool Styles
+ */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Custom slide styling */
+.reveal section {
+    /* Let Reveal.js manage sizing so it can scale slides on small viewports */
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    text-transform: none;
+}
+
+/* Title slide styling */
+.reveal .slide-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 0.5em;
+}
+
+.reveal .slide-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    opacity: 0.7;
+}
+
+.reveal .slide-content {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    line-height: 1.6;
+}
+
+/* Lists styling */
+.reveal ul,
+.reveal ol {
+    font-size: 1em;
+    margin: 0.5em 0;
+}
+
+.reveal li {
+    margin: 0.3em 0;
+    font-size: 1em;
+}
+
+/* Paragraph styling - inherits from parent */
+.reveal p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 0.5em 0;
+}
+
+/* Links and other elements */
+.reveal a {
+    font-size: 1em;
+}
+
+.reveal strong {
+    font-size: 1em;
+}
+
+.reveal em {
+    font-size: 1em;
+}

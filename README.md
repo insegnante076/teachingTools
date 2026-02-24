@@ -11,6 +11,7 @@ teachingTools/
 ├── README.md              # This file
 ├── tools/                 # Individual educational tools
 │   ├── reveal-slideshow/  # Presentation tool powered by reveal.js
+│   ├── reveal-md-slideshow/ # Markdown slideshow from CSV
 │   ├── knightlab-timeline/# Timeline visualization
 │   ├── markmap-visualizer/# Mind map visualizer
 │   └── html-content-viewer/ # HTML content renderer
@@ -31,7 +32,16 @@ Create beautiful presentations by loading slide content from CSV files.
 tools/reveal-slideshow/?csv=https://your-domain.com/slides.csv
 ```
 
-### 2. Knight Lab Timeline
+### 2. Reveal Markdown Slideshow
+
+Display reveal.js presentations from CSV markdown content. Concatenates slide content from multiple CSV fields.
+
+**Usage:**
+```
+tools/reveal-md-slideshow/?csv=https://your-domain.com/slides.csv&id=slide_id
+```
+
+### 3. Knight Lab Timeline
 
 Interactive timeline visualization powered by Knight Lab. Load historical events from CSV files.
 
@@ -40,7 +50,7 @@ Interactive timeline visualization powered by Knight Lab. Load historical events
 tools/knightlab-timeline/?csv=https://your-domain.com/timeline.csv
 ```
 
-### 3. Markmap Visualizer
+### 4. Markmap Visualizer
 
 Create interactive mind maps from markdown. Load mind maps from CSV files.
 
@@ -49,7 +59,7 @@ Create interactive mind maps from markdown. Load mind maps from CSV files.
 tools/markmap-visualizer/?csv=https://your-domain.com/maps.csv&title=MapTitle
 ```
 
-### 4. HTML Content Viewer
+### 5. HTML Content Viewer
 
 Display structured HTML content filtered by lesson group. Load educational materials with rich formatting and personalized content filtering.
 

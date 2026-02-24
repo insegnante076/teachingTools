@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal Markdown Slideshow</title>
+
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
+
+    <!-- Code highlight theme (optional but included) -->
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/plugin/highlight/monokai.css">
+
+    <!-- Tool Styles -->
+    <link rel="stylesheet" href="../../shared/styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="error-message" id="errorMessage"></div>
+
+    <div class="reveal">
+        <div class="slides" id="slidesContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading presentation...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+    <script src="https://unpkg.com/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="https://unpkg.com/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="https://unpkg.com/reveal.js/plugin/notes/notes.js"></script>
+
+    <!-- CSV parser (PapaParse) + shared CSV utilities -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="../../shared/url-utils.js"></script>
+    <script src="../../shared/csv-utils.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
