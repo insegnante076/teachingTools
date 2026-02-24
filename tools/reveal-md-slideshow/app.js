@@ -72,10 +72,15 @@ class MarkdownSlideShowApp {
             },
             plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath],
             math: {
-                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
-                config: 'TeX-AMS_HTML-full',
-                tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
-                svg: {fontCache: 'global'}
+                katex: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js',
+                css: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css',
+                options: {
+                    displayMode: false,
+                    leqno: false,
+                    fleqn: false,
+                    macros: {},
+                    throwOnError: false
+                }
             }
         });
     }
