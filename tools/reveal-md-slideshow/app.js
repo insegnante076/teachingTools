@@ -70,13 +70,7 @@ class MarkdownSlideShowApp {
                 separator: '\\n---\\n',
                 verticalSeparator: '\\n--\\n'
             },
-            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath],
-            math: {
-                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
-                config: 'TeX-AMS_HTML-full',
-                tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
-                svg: {fontCache: 'global'}
-            }
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
         });
     }
 

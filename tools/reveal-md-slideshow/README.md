@@ -31,17 +31,28 @@ The concatenated markdown should use standard reveal.js markdown syntax:
 - Use `##` for slide titles
 - Standard markdown for content
 
+### Math Support
+
+Mathematical expressions are supported using MathJax. Use LaTeX syntax:
+- Inline math: `$E = mc^2$` or `\(E = mc^2\)`
+- Display math: `$$E = mc^2$$` or `\[E = mc^2\]`
+
 Example markdown content with vertical slides:
 ```
 # Slide 1 Title
 
 Content for slide 1
 
+The famous equation: $E = mc^2$
+
 --
 
 # Vertical Slide 1.1
 
 Content for vertical slide
+
+Display math:
+$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
 
 --
 
