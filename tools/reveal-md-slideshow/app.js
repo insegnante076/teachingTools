@@ -83,6 +83,18 @@ class MarkdownSlideShowApp {
                 }
             }
         });
+
+        // Fix aria-hidden warning by using inert instead for future slides
+        Reveal.addEventListener('ready', () => {
+            const fixAriaHidden = () => {
+                document.querySelectorAll('section.future[aria-hidden]').forEach(section => {
+                    section.setAttribute('inert', 'true');
+                    section.removeAttribute('aria-hidden');
+                });
+            };
+            fixAriaHidden();
+            Reveal.addEventListener('slidechanged', fixAriaHidden);
+        });
     }
 
     /**
