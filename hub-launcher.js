@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (lessonGroup) lessonGroup.value = '';
         }
 
-        // Show reveal-md-slideshow-specific options
-        if (this.value === 'reveal-md-slideshow') {
+        // Show id field for tools that need an ID (reveal-md or concat viewer)
+        if (this.value === 'reveal-md-slideshow' || this.value === 'html-content-concat-viewer') {
             idGroup.style.display = 'flex';
             slideId.required = true;
         } else {
@@ -107,6 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             toolUrl += `?csv=${encodeURIComponent(csv)}&lesson_group=${encodeURIComponent(lessGrp)}`;
+        } else if (tool === 'html-content-concat-viewer') {
+            if (!sId) {
+                showFormError('Please enter an id for HTML Content Concat Viewer');
+                return;
+            }
+            toolUrl += `?csv=${encodeURIComponent(csv)}&id=${encodeURIComponent(sId)}`;
         } else if (tool === 'reveal-md-slideshow') {
             if (!sId) {
                 showFormError('Please enter a slide ID for Reveal Markdown Slideshow');

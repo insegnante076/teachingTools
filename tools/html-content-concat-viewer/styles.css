@@ -1,0 +1,24 @@
+/* Minimal styles for concat content viewer */
+.content-container {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 12px;
+}
+
+.error-message {
+    color: #b00020;
+    background: #fff0f0;
+    border: 1px solid #f5c6cb;
+    padding: 8px 12px;
+    display: none;
+    max-width: 900px;
+    margin: 12px auto;
+}
+
+.concat-content {
+    font-family: var(--body-font, Arial, Helvetica, sans-serif);
+}
+
+.loading { text-align: center; padding: 40px 0; }
+.spinner { width: 32px; height: 32px; border: 4px solid #ddd; border-top-color: #555; border-radius: 50%; margin: 0 auto 12px; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

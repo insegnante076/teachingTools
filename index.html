@@ -26,6 +26,7 @@
                         <option value="knightlab-timeline">📅 Knight Lab Timeline</option>
                         <option value="markmap-visualizer">🧠 Markmap Visualizer</option>
                         <option value="html-content-viewer">📄 HTML Content Viewer</option>
+                        <option value="html-content-concat-viewer">🧩 HTML Content Concat Viewer</option>
                     </select>
                 </div>
 
@@ -128,6 +129,13 @@
                 <p>Display structured HTML content filtered by lesson group. Load customized content from CSV files to present educational materials with rich formatting.</p>
                 <a href="tools/html-content-viewer/" class="tool-link">Open Tool</a>
                 <small>📝 Example: ?csv=https://example.com/content.csv&lesson_group=lesson1</small>
+            </div>
+
+            <div class="tool-card">
+                <h2>🧩 HTML Content Concat Viewer</h2>
+                <p>Load a CSV row by `id` and render concatenated HTML from fields `text_p1`, `text_p2`, `text_p3`.</p>
+                <a href="tools/html-content-concat-viewer/" class="tool-link">Open Tool</a>
+                <small>📝 Example: ?csv=https://example.com/content.csv&id=unique-id</small>
             </div>
 
             <!-- More tools will be added here -->
