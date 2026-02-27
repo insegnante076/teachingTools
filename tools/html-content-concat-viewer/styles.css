@@ -55,6 +55,49 @@ body {
     line-height: 1.5;
 }
 
+/* Table of Contents (match html-content-viewer) */
+.table-of-contents {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.toc-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-list ul {
+    list-style: none;
+    padding-left: 20px;
+    margin: 4px 0;
+}
+
+.toc-list li {
+    margin: 4px 0;
+}
+
+.toc-list a {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.toc-list a:hover {
+    text-decoration: underline;
+}
+
 .loading { text-align: center; padding: 40px 0; }
 .spinner { width: 32px; height: 32px; border: 4px solid #ddd; border-top-color: #555; border-radius: 50%; margin: 0 auto 12px; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
