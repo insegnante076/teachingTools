@@ -55,6 +55,17 @@ body {
     line-height: 1.5;
 }
 
+/* Add spacing around headings to improve separation when content is concatenated */
+.concat-content h1,
+.concat-content h2,
+.concat-content h3,
+.concat-content h4,
+.concat-content h5,
+.concat-content h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
 /* Table of Contents (match html-content-viewer) */
 .table-of-contents {
     margin-bottom: 40px;
