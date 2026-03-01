@@ -245,7 +245,7 @@ class SlideShowApp {
         Reveal.initialize({
             hash: true,
             center: true,
-            transition: 'slide',
+            transition: 'fade',
             backgroundTransition: 'fade',
             slideNumber: true,
             keyboard: true,

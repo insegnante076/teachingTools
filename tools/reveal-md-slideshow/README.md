@@ -13,6 +13,8 @@ Append parameters to the URL:
 
 Example: `?csv=https://example.com/slides.csv&id=slide1`
 
+> **Default transition:** Slides will fade between one another by default. This mirrors the behaviour of the main Reveal Slideshow tool. There is currently no per-slide override in this markdown-based variant.
+
 ## CSV Format
 
 The CSV must include at least these columns:

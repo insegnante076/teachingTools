@@ -66,6 +66,8 @@ class MarkdownSlideShowApp {
         // Initialize Reveal.js
         Reveal.initialize({
             hash: true,
+            transition: 'fade',           // default fade transition between slides
+            backgroundTransition: 'fade',
             markdown: {
                 separator: '\\n---\\n',
                 verticalSeparator: '\\n--\\n'

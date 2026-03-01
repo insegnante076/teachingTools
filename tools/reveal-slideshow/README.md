@@ -19,7 +19,7 @@ The CSV must include a header row with the following column names (order does no
 - `heading_html` : HTML snippet containing the heading for the slide (e.g. `<h2>Title</h2>`)
 - `content_html` : HTML snippet for the slide body (may contain lists, code, fragments)
 - `background` : background color or image for reveal.js (e.g. `#111827`)
-- `transition` : reveal.js transition name (e.g. `fade`, `slide`, `convex`, `zoom`)
+- `transition` : reveal.js transition name (e.g. `fade`, `slide`, `convex`, `zoom`). Slides with no transition specified will default to **fade**.
 - `classes` : space-separated CSS classes to add to the slide section
 - `notes` : speaker notes (plain text)
 - `presentation_filter` : logical grouping key — use with `presentation_filter` URL parameter to show only selected rows
