@@ -66,6 +66,15 @@ body {
     margin-bottom: 0.5em;
 }
 
+/* Ensure all heading levels are larger than normal paragraph text.
+   This prevents h5/h6 from appearing smaller than body copy. */
+.concat-content h1 { font-size: 2rem; font-weight: 700; }
+.concat-content h2 { font-size: 1.75rem; font-weight: 600; }
+.concat-content h3 { font-size: 1.5rem; font-weight: 600; }
+.concat-content h4 { font-size: 1.25rem; font-weight: 600; }
+.concat-content h5 { font-size: 1.1rem; font-weight: 600; }
+.concat-content h6 { font-size: 1rem; font-weight: 600; }
+
 /* Table of Contents (match html-content-viewer) */
 .table-of-contents {
     margin-bottom: 40px;
