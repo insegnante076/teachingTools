@@ -54,6 +54,7 @@ The hub quick-launch supports the `presentation_filter` and `vertical_level` par
 
 - If slides don't appear, check the browser console for network or CORS errors.
 - Verify the CSV header names match the expected column names.
+- The app automatically appends a cache‑buster to the CSV URL and requests with `cache: 'no-store'`, so you should see updates immediately when the source CSV changes. If you ever experience stale content, try hard‑reloading the page (Ctrl+Shift+R) or append a unique query string yourself.
 - Use `vertical_level=h2` to create vertical stacks under `h1` headings, `h3` to stack under `h2`, etc.
 - If your headings are missing or not standard HTML, the tool will treat those slides as top-level.
 

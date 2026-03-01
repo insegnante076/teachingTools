@@ -104,8 +104,15 @@ const URLUtils = {
             : csvUrl;
 
         try {
-            const response = await fetch(url);
-            
+            // Add a simple cache‑buster to the URL so that repeated fetches always
+            // hit the server rather than a stale browser/proxy cache.  We also
+            // instruct fetch not to use any cached data in case intermediaries
+            // ignore query parameters.
+            const cacheBuster = `_=${Date.now()}`;
+            const fetchUrl = url + (url.includes('?') ? '&' : '?') + cacheBuster;
+
+            const response = await fetch(fetchUrl, { cache: 'no-store' });
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
