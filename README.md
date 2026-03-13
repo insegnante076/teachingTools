@@ -2,6 +2,12 @@
 
 A collection of web-based tools designed to help educators create personalized, interactive learning experiences. Each tool can be customized through URL parameters to load educator-specific content.
 
+**✨ Key Features:**
+- **Offline-Ready**: All external libraries have been internalized - no dependency on external CDNs
+- **CSV-Powered**: Load content from CSV files hosted anywhere (Google Sheets, GitHub, etc.)
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- **Easy Customization**: URL parameters for personalized content
+
 ## 📋 Project Structure
 
 ```
@@ -9,12 +15,21 @@ teachingTools/
 ├── index.html              # Hub page with links to all tools
 ├── hub-launcher.js        # Quick launch form handler
 ├── README.md              # This file
+├── lib/                   # Internalized external libraries (no CDN dependency)
+│   ├── papaparse/         # CSV parsing library
+│   ├── katex/             # Math rendering library
+│   ├── d3/                # Data visualization library
+│   ├── markmap-lib/       # Mind map library
+│   ├── markmap-view/      # Mind map view library
+│   ├── timeline3/         # Timeline visualization library
+│   └── reveal.js/         # Presentation framework
 ├── tools/                 # Individual educational tools
 │   ├── reveal-slideshow/  # Presentation tool powered by reveal.js
 │   ├── reveal-md-slideshow/ # Markdown slideshow from CSV
 │   ├── knightlab-timeline/# Timeline visualization
 │   ├── markmap-visualizer/# Mind map visualizer
-│   └── html-content-viewer/ # HTML content renderer
+│   ├── html-content-viewer/ # HTML content renderer
+│   └── html-content-concat-viewer/ # Concatenated HTML content viewer
 └── shared/                # Shared utilities
     ├── url-utils.js      # URL parameter handling library
     ├── csv-utils.js      # CSV parsing utilities
@@ -74,6 +89,21 @@ tools/html-content-viewer/?csv=https://your-domain.com/content.csv&lesson_group=
 - Responsive design with dark mode support
 - Clean, readable layout
 
+### 6. HTML Content Concat Viewer
+
+Display concatenated HTML content from multiple CSV fields. Useful for combining related content pieces into a single view.
+
+**Usage:**
+```
+tools/html-content-concat-viewer/?csv=https://your-domain.com/content.csv&id=unique-id
+```
+
+**Features:**
+- Concatenate content from multiple CSV columns
+- Support for rich HTML formatting
+- Filter by unique ID
+- Responsive design
+
 ## 📌 Supported CSV Sources
 
 All tools support multiple ways to provide CSV data:
@@ -120,6 +150,17 @@ Get the "Embed" code and extract the download URL
    - Enter any tool-specific parameters (presentation filter, lesson group, etc.)
    - Click "Launch Tool"
 4. Alternatively, pass URL parameters directly to customize content (see tool-specific documentation)
+
+## 🔗 Offline & CDN Independence
+
+This project has been designed to work completely offline and without external dependencies:
+
+- **All Libraries Internalized**: External libraries (Reveal.js, D3.js, KaTeX, PapaParse, etc.) have been downloaded and stored locally in the `lib/` folder
+- **No CDN Dependencies**: Tools load all required JavaScript and CSS from local files
+- **Offline Capable**: Once loaded, tools work without internet connection (except for CSV data loading)
+- **Font Included**: Custom fonts (Source Sans Pro) are bundled locally
+
+This ensures reliability, performance, and compliance with network restrictions in educational environments.
 
 ## 📝 Creating Content
 
@@ -187,4 +228,4 @@ Feel free to add new tools following the same pattern:
 
 ---
 
-**Last Updated:** February 2026
+**Last Updated:** March 2026
