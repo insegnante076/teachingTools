@@ -74,8 +74,8 @@ class MarkdownSlideShowApp {
             },
             plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath],
             math: {
-                katex: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js',
-                css: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css',
+                katex: '../../lib/katex/0.16.9/dist/katex.min.js',
+                css: '../../lib/katex/0.16.9/dist/katex.min.css',
                 options: {
                     displayMode: false,
                     leqno: false,
