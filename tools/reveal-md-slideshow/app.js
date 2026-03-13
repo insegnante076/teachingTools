@@ -104,9 +104,14 @@ class MarkdownSlideShowApp {
      */
     showError(message) {
         const errorDiv = document.getElementById('errorMessage');
+        if (!errorDiv) {
+            console.error('Error: errorMessage element not found');
+            return;
+        }
         errorDiv.textContent = `❌ Error: ${message}`;
         errorDiv.style.display = 'block';
-        document.querySelector('.loading').style.display = 'none';
+        const loading = document.querySelector('.loading');
+        if (loading) loading.style.display = 'none';
     }
 }
 
