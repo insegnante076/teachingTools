@@ -57,21 +57,13 @@ class MarkdownSlideShowApp {
      */
     renderSlides(markdown) {
         const slidesContainer = document.getElementById('slidesContainer');
-        slidesContainer.innerHTML = `
-            <section data-markdown>
-                <textarea data-template>${markdown}</textarea>
-            </section>
-        `;
+        slidesContainer.innerHTML = this.buildRevealSections(markdown);
 
         // Initialize Reveal.js
         Reveal.initialize({
             hash: true,
             transition: 'fade',           // default fade transition between slides
             backgroundTransition: 'fade',
-            markdown: {
-                separator: '\\n---\\n',
-                verticalSeparator: '\\n--\\n'
-            },
             plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath],
             math: {
                 katex: '../../lib/katex/0.16.9/dist/katex.min.js',
@@ -97,6 +89,31 @@ class MarkdownSlideShowApp {
             fixAriaHidden();
             Reveal.addEventListener('slidechanged', fixAriaHidden);
         });
+    }
+
+    /**
+     * Build Reveal section markup from markdown using explicit separators.
+     *
+     * This avoids relying on reveal.js parsing of separator/verticalSeparator
+     * options, which can be affected by whitespace differences in CSV content.
+     */
+    buildRevealSections(markdown) {
+        const escapeTextarea = (text) => text.replace(/<\/textarea>/gi, '<\\/textarea>');
+        const makeSection = (content) => `
+            <section data-markdown>
+                <textarea data-template>${escapeTextarea(content)}</textarea>
+            </section>
+        `;
+
+        const horizontalChunks = markdown.split(/\r?\n---\r?\n/);
+        return horizontalChunks.map(chunk => {
+            const verticalChunks = chunk.split(/\r?\n--\r?\n/);
+            if (verticalChunks.length <= 1) {
+                return makeSection(chunk);
+            }
+            const inner = verticalChunks.map(makeSection).join('');
+            return `<section>${inner}</section>`;
+        }).join('');
     }
 
     /**
