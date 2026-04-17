@@ -98,6 +98,10 @@ Display concatenated HTML content from multiple CSV fields. Useful for combining
 tools/html-content-concat-viewer/?csv=https://your-domain.com/content.csv&id=unique-id
 ```
 
+**Optional parameters:**
+- `toc=false` — hide the generated table of contents
+- `show_toc=false`, `showToc=false` — alternate parameter names
+
 **Features:**
 - Concatenate content from multiple CSV columns
 - Support for rich HTML formatting

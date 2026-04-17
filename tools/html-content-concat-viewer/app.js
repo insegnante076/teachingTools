@@ -4,13 +4,26 @@
  * the fields: text_p1, text_p2, text_p3 (treated as HTML)
  *
  * Usage: ?csv=https://.../file.csv&id=the-id
+ * Optional: &toc=false to hide the generated table of contents
  */
 
 class ConcatContentViewerApp {
     constructor() {
         this.csvUrl = URLUtils.getParam('csv');
         this.selectedId = URLUtils.getParam('id') || URLUtils.getParam('item_id') || URLUtils.getParam('itemId');
+        this.showToc = this.resolveShowToc();
         this.init();
+    }
+
+    resolveShowToc() {
+        const params = ['toc', 'show_toc', 'showToc'];
+        for (const param of params) {
+            const value = URLUtils.getParam(param);
+            if (value !== null) {
+                return !['false', '0', 'no', 'off'].includes(value.trim().toLowerCase());
+            }
+        }
+        return true;
     }
 
     init() {
@@ -66,10 +79,11 @@ class ConcatContentViewerApp {
         contentDiv.className = 'concat-content';
         contentDiv.innerHTML = html;
 
-        // Generate a table of contents from headings inside contentDiv
-        const toc = this.generateTableOfContents(contentDiv);
+        if (this.showToc) {
+            const toc = this.generateTableOfContents(contentDiv);
+            if (toc) container.appendChild(toc);
+        }
 
-        if (toc) container.appendChild(toc);
         container.appendChild(contentDiv);
     }
 
